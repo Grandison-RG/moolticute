@@ -155,13 +155,18 @@ void MPManager::checkUsbDevices()
     }
 
 
-    if (AppDaemon::isEmulationMode())
+    if (AppDaemon::isEmulationModeLocal())
     {
         MPDevice *device;
         device = new MPDevice_emul(this);
         detectedDevs.append("EMULDEVICE_ID");
         devices["EMULDEVICE_ID"] = device;
         emit mpConnected(device);
+    }
+    else if (AppDaemon::isEmulationModeRemote())
+    {
+        qDebug() << "remote emul WIP, I am exiting :), lol";
+        qApp->exit();
     }
     else
     {
