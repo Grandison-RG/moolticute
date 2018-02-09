@@ -29,6 +29,7 @@
 #include "MPDevice_linux.h"
 #endif
 #include "MPDevice_emul.h"
+#include "MPDevice_emul_remote.h"
 
 class MPManager: public QObject
 {
