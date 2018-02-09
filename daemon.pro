@@ -63,6 +63,7 @@ SOURCES += src/main_daemon.cpp \
     src/MPNode.cpp \
     src/WSServerCon.cpp \
     src/MPDevice_emul.cpp \
+    src/MPDevice_emul_remote.cpp \
     src/http-parser/http_parser.c \
     src/HttpClient.cpp \
     src/HttpServer.cpp \
@@ -83,6 +84,7 @@ HEADERS  += \
     src/version.h \
     src/WSServerCon.h \
     src/MPDevice_emul.h \
+    src/MPDevice_emul_remote.h \
     src/http-parser/http_parser.h \
     src/HttpClient.h \
     src/HttpServer.h \
