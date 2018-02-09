@@ -46,6 +46,7 @@ public:
     bool initialize();
 
     static bool isEmulationMode();
+    static bool isEmulationModeRemote();
 
 private:
     WSServer *wsServer;
@@ -58,6 +59,7 @@ private:
     QLocalServer *localLogServer = nullptr;
 
     static bool emulationMode;
+    static bool emulationModeRemote;
 };
 
 #endif // APPDAEMON_H

@@ -26,6 +26,7 @@
 #endif
 
 bool AppDaemon::emulationMode = false;
+bool AppDaemon::emulationModeRemote = false;
 
 AppDaemon::AppDaemon(int &argc, char **argv):
     QAPP(argc, argv),
@@ -107,6 +108,7 @@ bool AppDaemon::initialize()
     parser.process(qApp->arguments());
 
     emulationMode = parser.isSet(emulMode);
+    emulationModeRemote = !emulationMode && parser.isSet(emulModeRemote); //'-e' has higher priority
 
     if (parser.isSet(debugHttpServer))
     {
@@ -143,4 +145,9 @@ AppDaemon::~AppDaemon()
 bool AppDaemon::isEmulationMode()
 {
     return emulationMode;
+}
+
+bool AppDaemon::isEmulationModeRemote()
+{
+    return emulationModeRemote;
 }
