@@ -25,7 +25,7 @@
 #include "MacUtils.h"
 #endif
 
-bool AppDaemon::emulationMode = false;
+bool AppDaemon::emulationModeLocal = false;
 bool AppDaemon::emulationModeRemote = false;
 
 AppDaemon::AppDaemon(int &argc, char **argv):
@@ -91,9 +91,9 @@ bool AppDaemon::initialize()
     parser.addHelpOption();
     parser.addVersionOption();
 
-    QCommandLineOption emulMode(QStringList() << "e" << "emulation",
+    QCommandLineOption emulModeLocal(QStringList() << "e" << "emulation",
                                      QCoreApplication::translate("main", "Activate emulation mode, all Websocket API function return emulated string, usefull if you want to try the API."));
-    parser.addOption(emulMode);
+    parser.addOption(emulModeLocal);
 
     QCommandLineOption emulModeRemote(QStringList() << "m" << "emulation-remote",
                                      QCoreApplication::translate("main", "Activate emulation mode, all Websocket API function return emulated string, usefull if you want to try the API."));
@@ -107,8 +107,8 @@ bool AppDaemon::initialize()
 
     parser.process(qApp->arguments());
 
-    emulationMode = parser.isSet(emulMode);
-    emulationModeRemote = !emulationMode && parser.isSet(emulModeRemote); //'-e' has higher priority
+    emulationModeLocal = parser.isSet(emulModeLocal);
+    emulationModeRemote = !emulationModeLocal && parser.isSet(emulModeRemote); //'-e' has higher priority
 
     if (parser.isSet(debugHttpServer))
     {
@@ -142,12 +142,17 @@ AppDaemon::~AppDaemon()
     delete httpServer;
 }
 
-bool AppDaemon::isEmulationMode()
+bool AppDaemon::isEmulationModeLocal()
 {
-    return emulationMode;
+    return emulationModeLocal;
 }
 
 bool AppDaemon::isEmulationModeRemote()
 {
     return emulationModeRemote;
+}
+
+bool AppDaemon::isEmulationMode()
+{
+    return emulationModeLocal || emulationModeRemote;
 }

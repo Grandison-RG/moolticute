@@ -45,8 +45,9 @@ public:
 
     bool initialize();
 
-    static bool isEmulationMode();
+    static bool isEmulationModeLocal();
     static bool isEmulationModeRemote();
+    static bool isEmulationMode();
 
 private:
     WSServer *wsServer;
@@ -58,7 +59,8 @@ private:
     //this is to send out logs to gui app
     QLocalServer *localLogServer = nullptr;
 
-    static bool emulationMode;
+    //static bool emulationMode;
+    static bool emulationModeLocal;
     static bool emulationModeRemote;
 };
 
