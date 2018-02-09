@@ -94,6 +94,10 @@ bool AppDaemon::initialize()
                                      QCoreApplication::translate("main", "Activate emulation mode, all Websocket API function return emulated string, usefull if you want to try the API."));
     parser.addOption(emulMode);
 
+    QCommandLineOption emulModeRemote(QStringList() << "m" << "emulation-remote",
+                                     QCoreApplication::translate("main", "Activate emulation mode, all Websocket API function return emulated string, usefull if you want to try the API."));
+    parser.addOption(emulModeRemote);
+
     // An option with a value
     QCommandLineOption debugHttpServer(QStringList() << "s" << "debug-http-server",
                                        QCoreApplication::translate("main", "Activate Http Server for debug mode. This mode is used to serve a web page on http://localhost:XXXX/ in order to test/debug the webscoket API easyly."),
