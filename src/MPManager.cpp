@@ -167,11 +167,9 @@ void MPManager::checkUsbDevices()
     {
         MPDevice *device;
         device = new MPDevice_emul_remote(this);
-        detectedDevs.append("EMULDEVICE_ID");
-        devices["EMULDEVICE_ID"] = device;
+        detectedDevs.append("EMULDEVICEREMOTE_ID");
+        devices["EMULDEVICEREMOTE_ID"] = device;
         emit mpConnected(device);
-        /* qDebug() << "remote emul WIP, I am exiting :), lol";
-        qApp->exit(); */
     }
     else
     {
