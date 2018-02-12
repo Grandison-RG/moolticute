@@ -17,7 +17,7 @@ void MPDevice_emul_remote::platformWrite(const QByteArray &data)
 
     QTimer::singleShot(0, [=]()
     {
-        emit platformDataRead(data);
+        emit platformDataRead(d);
     });
 }
 
