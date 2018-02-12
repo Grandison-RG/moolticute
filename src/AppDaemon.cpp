@@ -154,5 +154,5 @@ bool AppDaemon::isEmulationModeRemote()
 
 bool AppDaemon::isEmulationMode()
 {
-    return emulationModeLocal || emulationModeRemote;
+    return emulationModeLocal ^ emulationModeRemote;
 }
