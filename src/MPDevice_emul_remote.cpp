@@ -8,7 +8,7 @@ MPDevice_emul_remote::MPDevice_emul_remote(QObject *parent):
     connect(&ws, &QWebSocket::connected, this, &MPDevice_emul_remote::onConnected);
 
     qDebug() << "Opening of ws connection with a remote emu";
-    ws.open(QUrl(QStringLiteral("ws://localhost:30036")));
+    ws.open(QUrl(QStringLiteral("ws://127.0.0.1:30036")));
 }
 
 void MPDevice_emul_remote::platformWrite(const QByteArray &data)
