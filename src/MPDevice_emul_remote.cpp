@@ -28,8 +28,15 @@ void MPDevice_emul_remote::platformWrite(const QByteArray &data)
 void MPDevice_emul_remote::onConnected()
 {
     qDebug() << "Connected to the remote emu";
+    QByteArray d(4, 0x0);
 
-    ws.sendTextMessage(QStringLiteral("Hello, remote haskell emu!"));
+    d[0] = 4;
+    d[1] = MPCmd::PING;
+    d[2] = 0xFF;
+    d[3] = 0xFF;
+
+    ws.sendBinaryMessage(d);
+    //ws.sendTextMessage(QStringLiteral("Hello, remote haskell emu!"));
 }
 
 void MPDevice_emul_remote::platformRead()
