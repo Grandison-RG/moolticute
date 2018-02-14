@@ -96,7 +96,7 @@ bool AppDaemon::initialize()
     parser.addOption(emulModeLocal);
 
     QCommandLineOption emulModeRemote(QStringList() << "m" << "emulation-remote",
-                                     QCoreApplication::translate("main", "Activate emulation mode, all Websocket API function return emulated string, usefull if you want to try the API."));
+                                      QCoreApplication::translate("main", "Open connection with remote emulator."));
     parser.addOption(emulModeRemote);
 
     // An option with a value
