@@ -35,6 +35,9 @@ void MPDevice_emul_remote::onConnected()
     d[2] = 0xFF;
     d[3] = 0xFF;
 
+    connect(&ws, &QWebSocket::binaryMessageReceived, this, [](const QByteArray &msg){
+        qDebug() << "received from a remote emu" << msg; 
+    });
     ws.sendBinaryMessage(d);
     //ws.sendTextMessage(QStringLiteral("Hello, remote haskell emu!"));
 }
