@@ -16,6 +16,9 @@
  **  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  **
  ******************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "AppDaemon.h"
 #include "HttpServer.h"
 #include "Common.h"
@@ -108,7 +111,13 @@ bool AppDaemon::initialize()
     parser.process(qApp->arguments());
 
     emulationModeLocal = parser.isSet(emulModeLocal);
-    emulationModeRemote = !emulationModeLocal && parser.isSet(emulModeRemote); //'-e' has higher priority
+    emulationModeRemote = parser.isSet(emulModeRemote);
+    if(emulationModeLocal && emulationModeRemote) {
+        QString errmsg = QCoreApplication::translate("main", "Only one emulation device is allowed. Use either 'e' or 'm'.");
+        fputs(qPrintable(errmsg), stderr);
+        fputs("\n", stderr);
+        return false;
+    }
 
     if (parser.isSet(debugHttpServer))
     {
