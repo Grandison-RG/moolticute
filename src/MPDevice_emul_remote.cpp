@@ -13,33 +13,37 @@ MPDevice_emul_remote::MPDevice_emul_remote(QObject *parent):
 
 void MPDevice_emul_remote::platformWrite(const QByteArray &data)
 {
-    //qDebug() << "Unimplemented emulation command: " << MPCmd::printCmd(data) << data.mid(2);
-
-    QByteArray d = data;
-    d.resize(64);
-    d[2] = 0; //result is 0
-
-    QTimer::singleShot(0, [=]()
-    {
-        emit platformDataRead(d);
-    });
+    qDebug() << "sending to remote emu";
+    ws.sendBinaryMessage(data);
 }
 
 void MPDevice_emul_remote::onConnected()
 {
     qDebug() << "Connected to the remote emu";
-    QByteArray d(4, 0x0);
 
-    d[0] = 4;
-    d[1] = MPCmd::PING;
-    d[2] = 0xFF;
-    d[3] = 0xFF;
-
-    connect(&ws, &QWebSocket::binaryMessageReceived, this, [](const QByteArray &msg){
-        qDebug() << "received from a remote emu" << msg; 
+    connect(&ws, &QWebSocket::binaryMessageReceived, this, [=](const QByteArray &msg){
+        qDebug() << "Received from a remote emu" << msg; 
+        if((MPCmd::Command)msg.size() < 2 && (MPCmd::Command)msg.size() >= 64)
+        {
+            qDebug() << "Size of cmd should be more then 2 bytes and no more then 64 bytes";
+            QByteArray d;
+            d.resize(64);
+            d[2] = 0;
+            emit platformDataRead(d);
+        }
+        else if((MPCmd::Command)msg[1] == 0xff)
+        {
+            qDebug() << "Unimplemented or unsupported emulation command: " << MPCmd::printCmd(msg) << msg.mid(2);
+            QByteArray d;
+            d.resize(64);
+            d[2] = 0;
+            emit platformDataRead(d);
+        } else {
+            QByteArray d = msg;
+            d.resize(64);
+            emit platformDataRead(d);
+        }
     });
-    ws.sendBinaryMessage(d);
-    //ws.sendTextMessage(QStringLiteral("Hello, remote haskell emu!"));
 }
 
 void MPDevice_emul_remote::platformRead()
