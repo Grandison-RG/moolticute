@@ -31,16 +31,17 @@ void MPDevice_emul_remote::onConnected()
             d[2] = 0;
             emit platformDataRead(d);
         }
-        else if((MPCmd::Command)msg[1] == 0xff)
+        /* else if((MPCmd::Command)msg[1] == 0xff)
         {
             qDebug() << "Unimplemented or unsupported emulation command: " << MPCmd::printCmd(msg) << msg.mid(2);
             QByteArray d;
             d.resize(64);
             d[2] = 0;
             emit platformDataRead(d);
-        } else {
-            QByteArray d = msg;
+        } */ else {
+            QByteArray d;
             d.resize(64);
+            d.insert(0, msg);
             emit platformDataRead(d);
         }
     });
@@ -53,7 +54,6 @@ void MPDevice_emul_remote::platformRead()
 
 MPDevice_emul_remote::~MPDevice_emul_remote()
 {
-
     qDebug() << "Closing of ws connection with a remote emu";
     ws.close();
 }
